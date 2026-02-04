@@ -11,11 +11,13 @@ import BookingLabel from "./BookingLabel";
 import FormSection from "./FormSection";
 
 export default function PaymentDetailsCard() {
-	const { steps, navigation } = useBooking();
+	const booking = useBooking();
+	const { steps, navigation } = booking;
 	const { data: payment, errors, update, validate } = steps.payment;
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		console.log("useBooking state", booking);
 		if (validate()) {
 			const confirmationNumber = `BK-${Math.random()
 				.toString(36)
