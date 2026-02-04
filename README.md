@@ -19,6 +19,15 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Tests
+
+Run integration tests with Vitest:
+
+```bash
+npm test
+npm run test:watch
+```
+
 ## Preview
 
 Preview the application locally on the Cloudflare runtime:
