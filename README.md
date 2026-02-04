@@ -1,56 +1,83 @@
-# OpenNext Starter
+# Booking Flow
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Implementation of a three-step public booking flow (Contact, Payment, Confirmation)
+based on the provided design.
 
-## Getting Started
+## Setup
 
-Read the documentation at https://opennext.js.org/cloudflare.
+Prereqs: Node.js 18+ and npm.
+
+```bash
+npm install
+```
 
 ## Develop
 
-Run the Next.js development server:
-
 ```bash
 npm run dev
-# or similar package manager command
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Then open `http://localhost:3000/booking/contact`.
 
 ## Tests
-
-Run integration tests with Vitest:
 
 ```bash
 npm test
 npm run test:watch
 ```
 
-## Preview
+## Available Paths
 
-Preview the application locally on the Cloudflare runtime:
+- `/booking/contact`
+- `/booking/payment`
+- `/booking/confirmation`
 
-```bash
-npm run preview
-# or similar package manager command
-```
+## AI Usage
 
-## Deploy
+I used AI primarily for planning and review. My workflow was: plan first, iterate
+on the plan with considerations and reasoning (why), then implement. This mirrors
+spec-driven development, but with more manual review and decision-making.
 
-Deploy the application to Cloudflare:
+## Assumptions
 
-```bash
-npm run deploy
-# or similar package manager command
-```
+- The design reads as US‑oriented, so I matched its copy and input formats to reduce user friction; if locale requirements expand, phone formatting and labels should be locale‑driven.
+- Card payment is the only method shown, so I optimized the flow for a single, trusted payment path.
+- The experience is linear to keep cognitive load low and ensure required info is captured before payment.
+- Copy and policy text are treated as approved, static content; if marketing/legal updates are frequent, it should move to config/CMS.
 
-## Learn More
+## Tradeoffs
 
-To learn more about Next.js, take a look at the following resources:
+- Route‑based steps keep URLs meaningful for sharing, analytics, and customer support, at the cost of extra routing logic versus a single‑page wizard.
+- Centralized state/validation in Context keeps the UX consistent across steps; persistence can be added later if product needs drafts or recovery.
+- Zod + custom validation keeps rules explicit and errors consistent; a form library would scale faster if the form grows significantly.
+- Input masking guides entry and reduces formatting errors, but can be less flexible for some paste/edit behaviors.
+- Integration tests prioritize the end‑to‑end booking flow; deeper unit tests were deprioritized for speed.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Scope Decisions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Left out auth, provider selection, appointment scheduling, insurance details, payment processor integration, and backend persistence to stay focused on the booking UX.
+- SMS opt‑in was explicitly out of scope; if added, it would touch the contact data model, UI, validation, and consent copy.
+- Submission logs booking data to the console as requested instead of calling an API.
+
+## Scope Change Response (SMS Opt-in)
+
+If asked to add an SMS opt-in checkbox on Contact Information:
+
+- I would add a new boolean field in the contact data model, add a labeled
+  checkbox UI on the Contact step, and update validation + submission output.
+- I would confirm copy, placement, and any compliance requirements (opt-in
+  language, marketing consent rules), then estimate the added work and propose
+  a small follow-up PR if needed.
+
+## Links
+
+- Hosted page: https://mth.mrtn.workers.dev/booking/contact
+- GitHub repo: https://github.com/mrtnpar/mth
+
+## Project Organization
+
+- `src/app/booking/[step]/page.tsx`: step routing and screen selection.
+- `src/components/booking/*`: UI components for each step and shared booking UI.
+- `src/contexts/BookingContext.tsx`: booking state, validation, and navigation.
+- `src/lib/*`: step helpers and validation schema.
+- `src/app/globals.css`: global styles and design tokens.
