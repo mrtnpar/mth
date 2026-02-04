@@ -14,8 +14,7 @@ export default function ConfirmationServicesCard() {
 					<div key={`${service.name}-${index}`}>
 						<p className="text-sm font-semibold text-ink">{service.name}</p>
 						<p className="mt-1 text-xs text-ink-muted">
-							{service.duration} <span className="px-1">•</span>{" "}
-							{service.price}
+							{service.duration} <span className="px-1">•</span> {service.price}
 						</p>
 					</div>
 				))}

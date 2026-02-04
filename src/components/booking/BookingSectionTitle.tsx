@@ -1,15 +1,15 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react";
 
 type BookingSectionTitleProps = {
-  children: ReactNode
-  className?: string
-}
+	children: ReactNode;
+	className?: string;
+};
 
 export default function BookingSectionTitle({
-  children,
-  className,
+	children,
+	className,
 }: BookingSectionTitleProps) {
-  const base = 'text-body font-semibold text-ink'
+	const base = "text-body font-semibold text-ink";
 
-  return <p className={`${base} ${className ?? ''}`.trim()}>{children}</p>
+	return <p className={`${base} ${className ?? ""}`.trim()}>{children}</p>;
 }
